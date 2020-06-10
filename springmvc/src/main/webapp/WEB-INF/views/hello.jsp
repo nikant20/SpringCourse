@@ -1,5 +1,8 @@
 <html>
 <head>
+
+<!-- Added to show values in jsp while using ${} experssion as jsp is older version being used here -->
+<%@ page isELIgnored="false" %>
 <title>Hello</title>
 </head>
 <body>
@@ -12,8 +15,10 @@
 	out.println("NAME:- "+name);
 	out.println("SALARY:- "+salary);
 	%>
-	<h1> ${id} </h1>
-	<h1> ${name} </h1>
-	<h1> ${salary} </h1>
+	
+	<br/>
+	ID:- <em> ${id} </em>
+	Name:- <em> ${name} </em>
+	Salary:- <em> ${salary} </em>
 </body>
 </html>
