@@ -1,7 +1,7 @@
 <html>
 <head>
 
-<!-- Added to show values in jsp while using ${} experssion as jsp is older version being used here -->
+<!-- Added to show values in jsp as jsp is older version being used here -->
 <%@ page isELIgnored="false" %>
 <title>Hello</title>
 </head>
