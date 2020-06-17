@@ -3,6 +3,8 @@ package tech.nikant.springdata.product;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,7 @@ class ProductDataApplicationTests {
 		Product product = new Product();
 		product.setId(101);
 		product.setName("OnePlus");
-		product.setDesc("Awesome");
+		product.setDescription("Awesome");
 		product.setPrice(1000d);
 		
 		repository.save(product);
@@ -46,7 +48,7 @@ class ProductDataApplicationTests {
 		if(optional.isPresent()) {
 			Product product = optional.get();
 			product.setName("OnePlus 7t");
-			product.setDesc("Awesome");
+			product.setDescription("Awesome");
 			repository.save(product);
 		} 
 	}
@@ -58,5 +60,49 @@ class ProductDataApplicationTests {
 		}
 		
 	}
-
+	
+	@Test
+	public void test_findByName() {
+		List<Product> product = repository.findByName("OnePlus");
+		assertNotNull(product);
+		product.forEach(p -> System.out.println(p.getName()));
+	}
+	
+	@Test
+	public void test_findByNameAndDesc() {
+		List<Product> product = repository.findByNameAndDescription("OnePlus","From OnuPlus");
+		assertNotNull(product);
+		product.forEach(p -> System.out.println(p.getName()));
+	}
+	
+	@Test
+	public void test_findByPriceGraterThan() {
+		List<Product> product = repository.findByPriceGreaterThanEqual(1d);
+		assertNotNull(product);
+		product.forEach(p -> System.out.println(p.getName()));
+	}
+	
+	@Test
+	public void test_findByPriceBetween() {
+		List<Product> product = repository.findByPriceBetween(1d, 100d);
+		assertNotNull(product);
+		product.forEach(p -> System.out.println(p.getName()));
+	}
+	
+	@Test
+	public void test_findByNameContains() {
+		List<Product> product = repository.findByDescriptionLike("From%");
+		assertNotNull(product);
+		product.forEach(p -> System.out.println(p.getName()));
+	}
+	
+	@Test
+	public void test_findByIdIn() {
+		List<Integer> ids = new ArrayList<Integer>();
+		ids.add(2);
+		ids.add(3);
+		List<Product> product = repository.findByIdIn(ids);
+		assertNotNull(product);
+		product.forEach(p -> System.out.println(p.getName()));
+	}
 }

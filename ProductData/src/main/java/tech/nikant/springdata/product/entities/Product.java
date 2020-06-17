@@ -1,6 +1,5 @@
 package tech.nikant.springdata.product.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,11 +11,9 @@ public class Product {
 	@Id
 	private int id;
 	private String name;
-	
-	@Column(name = "description")
-	private String desc;
-	
+	private String description;
 	private Double price;
+	
 	public int getId() {
 		return id;
 	}
@@ -29,11 +26,11 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	public Double getPrice() {
 		return price;
