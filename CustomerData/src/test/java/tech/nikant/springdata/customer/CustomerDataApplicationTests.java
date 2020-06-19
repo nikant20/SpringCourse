@@ -6,9 +6,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import tech.nikant.springdata.customer.entities.Customer;
 import tech.nikant.springdata.customer.repos.CustomerRepository;
@@ -24,6 +29,7 @@ class CustomerDataApplicationTests {
 	}
 
 	@Test
+	@RepeatedTest(10)
 	public void test_create() {
 		Customer customer = new Customer();
 		customer.setEmail("xyz@gmail.com");
@@ -81,4 +87,17 @@ class CustomerDataApplicationTests {
 		customer.forEach(p -> System.out.println(p.getName()));
 	}
 
+	@Test
+	@Transactional
+	@Rollback(false)
+	public void test_UpdateEmailOfCustomerById() {
+		repository.UpdateEmailOfCustomerById(3, "Nishant21@gmail.com");
+	}
+	
+	@Test
+	public void test_findAllUsingPageable() {
+		repository.findAllNamesUsingPageable(PageRequest.of(0, 2)).forEach(c->System.out.println(c.getName()));
+		repository.findAllNamesUsingPageable(PageRequest.of(0, 5, Direction.DESC,"name")).forEach(c->System.out.println(c.getName()));
+	}
+	
 }
