@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import tech.nikant.springdata.customer.entities.Address;
 import tech.nikant.springdata.customer.entities.Customer;
 import tech.nikant.springdata.customer.repos.CustomerRepository;
 
@@ -28,12 +29,22 @@ class CustomerDataApplicationTests {
 	void contextLoads() {
 	}
 
+	
+	//@RepeatedTest(10)
 	@Test
-	@RepeatedTest(10)
 	public void test_create() {
 		Customer customer = new Customer();
 		customer.setEmail("xyz@gmail.com");
 		customer.setName("John");
+		Address address = new Address();
+		
+		address.setCity("Banglore");
+		address.setCountry("India");
+		address.setState("Karnataka");
+		address.setStreetaddress("Kodathi Village");
+		address.setZipcode("560035");
+		
+		customer.setAddress(address);
 
 		repository.save(customer);
 	}

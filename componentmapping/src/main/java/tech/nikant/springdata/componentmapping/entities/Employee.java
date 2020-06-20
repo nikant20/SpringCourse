@@ -1,22 +1,17 @@
-package tech.nikant.springdata.customer.entities;
+package tech.nikant.springdata.componentmapping.entities;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Customer {
+public class Employee {
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private String email;
-	
 	@Embedded
 	Address address;
-	
 	
 	public int getId() {
 		return id;
@@ -30,17 +25,11 @@ public class Customer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	public Address getAddress() {
 		return address;
 	}
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
+
 }
