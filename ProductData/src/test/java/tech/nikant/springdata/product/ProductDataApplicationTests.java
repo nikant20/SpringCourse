@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+
+import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.transaction.annotation.Transactional;
 
 import tech.nikant.springdata.product.entities.Product;
 import tech.nikant.springdata.product.repos.ProductRepository;
@@ -25,13 +29,16 @@ class ProductDataApplicationTests {
 	@Autowired
 	ProductRepository repository;
 
+	@Autowired
+	EntityManager entityManager;
+
 	@Test
 	public void testCreate() {
 		Product product = new Product();
-		product.setId(101);
-		product.setName("OnePlus");
-		product.setDescription("Awesome");
-		product.setPrice(1000d);
+		product.setId(103);
+		product.setName("Samsung Galaxy");
+		product.setDescription("Nice");
+		product.setPrice(100d);
 
 		repository.save(product);
 	}
@@ -121,16 +128,26 @@ class ProductDataApplicationTests {
 		assertNotNull(results);
 		results.forEach(p -> System.out.println(p.getName()));
 	}
-	
+
 	@Test
 	public void test_findAllSorting() {
 		repository.findAll(Sort.by(Direction.ASC, "price", "name")).forEach(p -> System.out.println(p.getName()));
 		repository.findAll(Sort.by(new Sort.Order(Direction.ASC, "name"), new Sort.Order(Direction.DESC, "price")));
 	}
-	
+
 	@Test
 	public void test_findAllPagingAndSorting() {
 		Pageable pageable = PageRequest.of(0, 2, Direction.DESC, "name");
 		repository.findAll(pageable).forEach(p -> System.out.println(p.getName()));
+	}
+
+	@Test
+	@Transactional
+	public void testCache() {
+		Session session = entityManager.unwrap(Session.class);
+		Product product = repository.findById(101).get();
+		repository.findById(101).get();
+		session.evict(product);
+		repository.findById(101).get();
 	}
 }
